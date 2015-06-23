@@ -12,7 +12,7 @@ import java.util.Map.Entry;
 import java.util.Stack;
 
 /**
- * Classe que representa um grafo. Implementada utilizando lista de adjacensia.
+ * Classe que representa um grafo. Implementada utilizando lista de adjacencia.
  * @author matheus
  *
  */
@@ -63,7 +63,7 @@ public class Grafo
 	}
 	
 	private Vertice _inicio = null;
-	private HashMap<Vertice, ArrayList<Vertice>> _listaAdjacensia = null;
+	private HashMap<Vertice, ArrayList<Vertice>> _listaAdjacencia = null;
 	private String _arquivo = null;
 	
 	/**
@@ -72,7 +72,7 @@ public class Grafo
 	 */
 	public Grafo(String arquivo)
 	{
-		_listaAdjacensia = new HashMap<Vertice, ArrayList<Vertice>>();
+		_listaAdjacencia = new HashMap<Vertice, ArrayList<Vertice>>();
 		_arquivo = arquivo;
 		this.ControiGrafo();
 	}
@@ -82,7 +82,7 @@ public class Grafo
 	 */
 	public Grafo()
 	{
-		_listaAdjacensia = new HashMap<Vertice, ArrayList<Vertice>>();
+		_listaAdjacencia = new HashMap<Vertice, ArrayList<Vertice>>();
 	}
 	
 	/**
@@ -138,14 +138,14 @@ public class Grafo
 					Vertice.verticesGrafo.add(verticeB);
 				
 				//se já houver o elemento no array, só recupera, senão adiciona
-				if (!_listaAdjacensia.containsKey(verticeA))
-					_listaAdjacensia.put(verticeA, new ArrayList<Vertice>());
+				if (!_listaAdjacencia.containsKey(verticeA))
+					_listaAdjacencia.put(verticeA, new ArrayList<Vertice>());
 				
-				if (!_listaAdjacensia.containsKey(verticeB))
-					_listaAdjacensia.put(verticeB, new ArrayList<Vertice>());
+				if (!_listaAdjacencia.containsKey(verticeB))
+					_listaAdjacencia.put(verticeB, new ArrayList<Vertice>());
 					
-				_listaAdjacensia.get(verticeA).add(verticeB);
-				_listaAdjacensia.get(verticeB).add(verticeA);
+				_listaAdjacencia.get(verticeA).add(verticeB);
+				_listaAdjacencia.get(verticeB).add(verticeA);
 			}
 			
 			System.out.println("");
@@ -233,7 +233,7 @@ public class Grafo
 		}
 		
 		//pega os vizinhos do vértice atual
-		Iterator<Vertice> iterador = _listaAdjacensia.get(atual).iterator();
+		Iterator<Vertice> iterador = _listaAdjacencia.get(atual).iterator();
 		
 		//valida se já foi visto para poder acessar
 		if (atual.visitado)
@@ -241,7 +241,7 @@ public class Grafo
 		else
 			atual.visitado = true;
 		
-		System.out.println(atual.valor);
+		System.out.print(atual.valor);
 		
 		//para cada vizinho, chama recursao
 		while (iterador.hasNext())
@@ -280,7 +280,7 @@ public class Grafo
 		while (!pilha.empty())
 		{
 			//desempinha
-			ListIterator<Vertice> iterador = _listaAdjacensia.get((atual = pilha.pop())).listIterator(_listaAdjacensia.get((atual)).size());
+			ListIterator<Vertice> iterador = _listaAdjacencia.get((atual = pilha.pop())).listIterator(_listaAdjacencia.get((atual)).size());
 			
 			//valida se já foi visitado para poder acessar
 			if (atual.visitado)
@@ -341,9 +341,9 @@ public class Grafo
 			//acessa o vértice
 			System.out.println(atual.valor);
 			
-			for (int i =  _listaAdjacensia.get(atual).size()-1; i >= 0; i--)
+			for (int i =  _listaAdjacencia.get(atual).size()-1; i >= 0; i--)
 			{
-				vizinho = _listaAdjacensia.get(atual).get(i);
+				vizinho = _listaAdjacencia.get(atual).get(i);
 				
 				if (vizinho.visitado)
 					continue;
@@ -393,20 +393,20 @@ public class Grafo
 	public void Adicionar(Vertice vizinho, Vertice novo)
 	{
 		if (vizinho != null)
-			_listaAdjacensia.get(vizinho).add(novo);
+			_listaAdjacencia.get(vizinho).add(novo);
 		
-		if (!_listaAdjacensia.containsKey(novo))
+		if (!_listaAdjacencia.containsKey(novo))
 		{
-			_listaAdjacensia.put(novo, new ArrayList<Vertice>());
+			_listaAdjacencia.put(novo, new ArrayList<Vertice>());
 		}
 		
 		if (vizinho != null)
-			_listaAdjacensia.get(novo).add(vizinho);
+			_listaAdjacencia.get(novo).add(vizinho);
 	}
 	
 	private void LimpaVisitas()
 	{
-		for (Entry<Vertice, ArrayList<Vertice>> entrada : _listaAdjacensia.entrySet())
+		for (Entry<Vertice, ArrayList<Vertice>> entrada : _listaAdjacencia.entrySet())
 		{
 			entrada.getKey().visitado = false;
 		}
